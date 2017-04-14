@@ -30,6 +30,11 @@ module.exports = function(config) {
       'bower_components/angular-route/angular-route.js',
       'bower_components/angular-sanitize/angular-sanitize.js',
       'bower_components/angular-touch/angular-touch.js',
+      'bower_components/moment/moment.js',
+      'bower_components/angular-moment/angular-moment.js',
+      'bower_components/angular-gantt/assets/angular-gantt.js',
+      'bower_components/angular-gantt/assets/angular-gantt-plugins.js',
+      'bower_components/angular-ui-tree/dist/angular-ui-tree.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

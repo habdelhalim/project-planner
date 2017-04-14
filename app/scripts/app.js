@@ -16,7 +16,10 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch'
+    'ngTouch',
+    'gantt',
+    'gantt.tree',
+    'gantt.progress'
   ])
   .config(function ($routeProvider) {
     $routeProvider
