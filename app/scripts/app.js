@@ -16,22 +16,28 @@ angular
     'ngResource',
     'ngRoute',
     'ngSanitize',
-    'ngTouch',
     'gantt',
     'gantt.tree',
     'gantt.progress'
   ])
-  .config(function ($routeProvider) {
+  .config(function ($routeProvider, $locationProvider) {
+    $locationProvider.hashPrefix('');
+
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
-        controllerAs: 'main'
+        controllerAs: 'vm'
       })
       .when('/about', {
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl',
-        controllerAs: 'about'
+        controllerAs: 'vm'
+      })
+      .when('/planner', {
+        templateUrl: 'views/planner.html',
+        controller: 'PlannerCtrl',
+        controllerAs: 'vm'
       })
       .otherwise({
         redirectTo: '/'
