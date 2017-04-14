@@ -15,14 +15,22 @@ angular.module('projectPlannerApp')
         'tasks': '='
       },
       controller: function ($scope) {
-        $scope.task = '';
+        $scope.task = {};
         $scope.addTask = addTask;
 
         function addTask() {
           if ($scope.tasks === undefined)
             $scope.tasks = [];
 
-          $scope.tasks.push($scope.task);
+          $scope.tasks.push(
+            {
+              name: $scope.task.name,
+              color: $scope.task.color,
+              from: $scope.task.from,
+              to: $scope.task.to
+            }
+          );
+          $scope.task = {};
         }
       }
     };

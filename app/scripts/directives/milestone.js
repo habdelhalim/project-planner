@@ -14,9 +14,6 @@ angular.module('projectPlannerApp')
         'milestone': '=',
         'save': '&'
       },
-      restrict: 'E',
-      controller: function ($scope) {
-        console.log($scope.milestone);
-      }
+      restrict: 'E'
     };
   });
