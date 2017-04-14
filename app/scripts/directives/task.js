@@ -1,0 +1,29 @@
+'use strict';
+
+/**
+ * @ngdoc directive
+ * @name projectPlannerApp.directive:task
+ * @description
+ * # task
+ */
+angular.module('projectPlannerApp')
+  .directive('task', function () {
+    return {
+      templateUrl: 'views/task.directive.html',
+      restrict: 'E',
+      scope: {
+        'tasks': '='
+      },
+      controller: function ($scope) {
+        $scope.task = '';
+        $scope.addTask = addTask;
+
+        function addTask() {
+          if ($scope.tasks === undefined)
+            $scope.tasks = [];
+
+          $scope.tasks.push($scope.task);
+        }
+      }
+    };
+  });

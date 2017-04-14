@@ -1,0 +1,9 @@
+<div class="input-group">
+  <input type="text" class="form-control" ng-model="task">
+  <div class="input-group-btn">
+    <button class="btn btn-primary" ng-click="addTask()" type="button">Add Task</button>
+  </div>
+</div>
+<ul class="list-group">
+  <li class="list-group-item" ng-repeat="task in tasks track by $index">{{task}}</li>
+</ul>

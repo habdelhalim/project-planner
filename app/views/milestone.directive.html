@@ -1,0 +1,17 @@
+<h2>Milestone</h2>
+<div class="row">
+  <div class="col-md-6">
+    <form ng-submit="save()">
+      <div class="form-group">
+        <label for="milestone">Milestone</label>
+        <input id="milestone" class="form-control" type="text" ng-model="milestone.name">
+      </div>
+      <button class="btn btn-primary" type="submit">Submit</button>
+    </form>
+  </div>
+  <div class="col-md-6">
+    <task tasks="milestone.tasks"></task>
+  </div>
+</div>
+
+
