@@ -8,13 +8,45 @@
  * Service in the projectPlannerApp.
  */
 angular.module('projectPlannerApp')
-  .service('milestones', function ($window, $rootScope) {
+  .service('milestones', function ($window, $rootScope, $http) {
     var service = {
       list: [],
 
+      ParseGoogleSheet: function (entries) {
+        var milestones = [];
+        entries.forEach(function (entry) {
+          var milestone = {
+            name: entry['gsx$name'] && entry['gsx$name']['$t'],
+            tasks: []
+          };
+
+          milestone.tasks.push({
+            name: entry['gsx$name'] && entry['gsx$name']['$t'],
+            color: entry['gsx$color'] && entry['gsx$color']['$t'],
+            from: new Date(entry['gsx$from'] && entry['gsx$from']['$t']),
+            to: new Date(entry['gsx$to'] && entry['gsx$to']['$t'])
+          });
+
+          service.list.push(milestone);
+          milestones.push(milestone);
+        });
+
+        return milestones;
+      },
+
+      GoogleDoc: function () {
+        $http
+          .get('https://spreadsheets.google.com/feeds/list/REPlaceme/od6/public/values?alt=json')
+          .then(function (data) {
+            service.ParseGoogleSheet(data.data.feed.entry);
+          }, function (error) {
+            console.log('error', error);
+          })
+
+      },
       SaveList: function () {
         if ($window.localStorage) {
-          $window.localStorage.setItem('milestones', angular.toJson(service.list));
+          // $window.localStorage.setItem('milestones', angular.toJson(service.list));
         }
       },
 
@@ -22,6 +54,12 @@ angular.module('projectPlannerApp')
         if ($window.localStorage) {
           service.list = angular.fromJson($window.localStorage.getItem('milestones'));
         }
+
+        if (service.list == null) {
+          service.list = [];
+        }
+
+        service.GoogleDoc();
         return service.list;
       },
       AddItem: function (milestone) {
