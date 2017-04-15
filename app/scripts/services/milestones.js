@@ -8,11 +8,25 @@
  * Service in the projectPlannerApp.
  */
 angular.module('projectPlannerApp')
-  .service('milestones', function () {
-    // AngularJS will instantiate a singleton by calling "new" on this function
-    return {
-      get: function () {
-        return [{}];
+  .service('milestones', function ($window, $rootScope) {
+    var service = {
+      list: [],
+
+      SaveList: function () {
+        if ($window.localStorage) {
+          $window.localStorage.setItem('milestones', angular.toJson(service.list));
+        }
+      },
+
+      LoadList: function () {
+        if ($window.localStorage) {
+          service.list = angular.fromJson($window.localStorage.getItem('milestones'));
+        }
       }
-    }
+    };
+
+    $rootScope.$on("save-milestones", service.SaveList);
+    $rootScope.$on("load-milestones", service.LoadList);
+
+    return service;
   });
