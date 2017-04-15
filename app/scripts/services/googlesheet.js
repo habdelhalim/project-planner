@@ -34,6 +34,7 @@ angular.module('projectPlannerApp')
         entries.forEach(function (entry) {
           var milestone = {
             name: entry['gsx$name'] && entry['gsx$name']['$t'],
+            parent: entry['gsx$parent'] && entry['gsx$parent']['$t'],
             tasks: []
           };
 
