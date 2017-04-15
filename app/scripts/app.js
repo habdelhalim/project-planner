@@ -37,4 +37,5 @@ angular
       .otherwise({
         redirectTo: '/'
       });
-  });
+  })
+  .constant('BACKEND_SERVICE', 'GOOGLE_SHEET');

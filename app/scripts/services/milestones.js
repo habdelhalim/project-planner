@@ -8,9 +8,11 @@
  * Service in the projectPlannerApp.
  */
 angular.module('projectPlannerApp')
-  .service('milestones', function ($window, $rootScope, $http, googlesheet, localstore) {
+  .service('milestones', function ($window, $rootScope, $http, BACKEND_SERVICE, googlesheet, localstore) {
     var impl = localstore;
-    if (googlesheet.getUrl()) {
+
+    if (BACKEND_SERVICE === 'GOOGLE_SHEET'
+      && googlesheet.getUrl()) {
       impl = googlesheet;
     }
 
