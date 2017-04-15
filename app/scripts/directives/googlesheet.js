@@ -13,13 +13,13 @@ angular.module('projectPlannerApp')
       restrict: 'E',
       controller: function (googlesheet) {
         var vm = this;
-        vm.sheetUrl = googlesheet.GetUrl();
+        vm.sheetUrl = googlesheet.getUrl();
         vm.saveUrl = saveUrl;
 
         function saveUrl() {
           console.log('saving document url', vm.sheetUrl);
           googlesheet.url = vm.sheetUrl;
-          googlesheet.SaveUrl();
+          googlesheet.saveUrl();
         }
       },
       controllerAs: 'vm'
