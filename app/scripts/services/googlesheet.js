@@ -41,7 +41,8 @@ angular.module('projectPlannerApp')
             name: entry['gsx$name'] && entry['gsx$name']['$t'],
             color: entry['gsx$color'] && entry['gsx$color']['$t'],
             from: new Date(entry['gsx$from'] && entry['gsx$from']['$t']),
-            to: new Date(entry['gsx$to'] && entry['gsx$to']['$t'])
+            to: new Date(entry['gsx$to'] && entry['gsx$to']['$t']),
+            progress: entry['gsx$progress'] && entry['gsx$progress']['$t']
           });
 
           milestones.push(milestone);

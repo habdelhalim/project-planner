@@ -18,7 +18,9 @@ angular
     'ngSanitize',
     'gantt',
     'gantt.tree',
-    'gantt.progress'
+    'gantt.progress',
+    'gantt.tooltips',
+    'gantt.labels'
   ])
   .config(function ($routeProvider, $locationProvider) {
     $locationProvider.hashPrefix('');
