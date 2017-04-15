@@ -8,7 +8,7 @@
  * Service in the projectPlannerApp.
  */
 angular.module('projectPlannerApp')
-  .service('milestones', function ($window, $rootScope, $http) {
+  .service('milestones', function ($window, $rootScope, $http, googlesheet) {
     var service = {
       list: [],
 
@@ -36,7 +36,7 @@ angular.module('projectPlannerApp')
 
       GoogleDoc: function () {
         $http
-          .get('https://spreadsheets.google.com/feeds/list/REPlaceme/od6/public/values?alt=json')
+          .get(googlesheet.GetUrl())
           .then(function (data) {
             service.ParseGoogleSheet(data.data.feed.entry);
           }, function (error) {
@@ -46,7 +46,7 @@ angular.module('projectPlannerApp')
       },
       SaveList: function () {
         if ($window.localStorage) {
-          // $window.localStorage.setItem('milestones', angular.toJson(service.list));
+          $window.localStorage.setItem('milestones', angular.toJson(service.list));
         }
       },
 
