@@ -29,11 +29,6 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'vm'
       })
-      .when('/about', {
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl',
-        controllerAs: 'vm'
-      })
       .when('/planner', {
         templateUrl: 'views/planner.html',
         controller: 'PlannerCtrl',
