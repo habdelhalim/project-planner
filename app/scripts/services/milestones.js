@@ -22,6 +22,11 @@ angular.module('projectPlannerApp')
         if ($window.localStorage) {
           service.list = angular.fromJson($window.localStorage.getItem('milestones'));
         }
+        return service.list;
+      },
+      AddItem: function (milestone) {
+        service.list.push(milestone);
+        $rootScope.$broadcast('save-milestones');
       }
     };
 

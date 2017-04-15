@@ -8,19 +8,17 @@
  * Controller of the projectPlannerApp
  */
 angular.module('projectPlannerApp')
-  .controller('PlannerCtrl', function ($rootScope, milestones) {
+  .controller('PlannerCtrl', function (milestones) {
     var vm = this;
-    $rootScope.$broadcast('load-milestones');
-
     vm.milestone = {
       tasks: []
     };
-    vm.data = milestones.list;
+
+    vm.data = milestones.LoadList();
     vm.addMilestone = addMilestone;
 
     function addMilestone() {
-      vm.data.push(vm.milestone);
-      $rootScope.$broadcast('save-milestones');
+      milestones.AddItem(vm.milestone);
 
       vm.milestone = {
         tasks: []
