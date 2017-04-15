@@ -17,6 +17,8 @@ angular.module('projectPlannerApp')
         vm.saveUrl = saveUrl;
 
         function saveUrl() {
+          console.log('saving document url', vm.sheetUrl);
+          googlesheet.url = vm.sheetUrl;
           googlesheet.SaveUrl();
         }
       },

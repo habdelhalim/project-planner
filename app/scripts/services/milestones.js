@@ -35,13 +35,16 @@ angular.module('projectPlannerApp')
       },
 
       GoogleDoc: function () {
-        $http
-          .get(googlesheet.GetUrl())
-          .then(function (data) {
-            service.ParseGoogleSheet(data.data.feed.entry);
-          }, function (error) {
-            console.log('error', error);
-          })
+        if (googlesheet.GetUrl()) {
+          console.log('loading document ', googlesheet.GetUrl());
+          $http
+            .get(googlesheet.GetUrl())
+            .then(function (data) {
+              service.ParseGoogleSheet(data.data.feed.entry);
+            }, function (error) {
+              console.log('error', error);
+            })
+        }
 
       },
       SaveList: function () {
