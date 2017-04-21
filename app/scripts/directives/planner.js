@@ -12,11 +12,15 @@ angular.module('projectPlannerApp')
       templateUrl: 'views/planner.directive.html',
       scope: {
         'data': '=',
-        'reload': '&'
+        'fromDate': '=',
+        'toDate': '='
       },
       restrict: 'E',
       controller: function () {
         var vm = this;
+        vm.today = new Date();
+        vm.outOfRange = 'truncate';
+        vm.headers = ['month', 'week', 'day'];
 
         vm.timeFrames = {
           day: {
