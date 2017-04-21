@@ -16,6 +16,7 @@ angular.module('projectPlannerApp')
 
     vm.data = milestones.LoadList();
     vm.addMilestone = addMilestone;
+    vm.reload = reload;
 
     function addMilestone() {
       milestones.AddItem(vm.milestone);
@@ -23,5 +24,9 @@ angular.module('projectPlannerApp')
       vm.milestone = {
         tasks: []
       }
+    }
+
+    function reload() {
+      vm.data = milestones.LoadList();
     }
   });

@@ -11,7 +11,8 @@ angular.module('projectPlannerApp')
     return {
       templateUrl: 'views/planner.directive.html',
       scope: {
-        'data': '='
+        'data': '=',
+        'reload': '&'
       },
       restrict: 'E',
       controller: function () {
