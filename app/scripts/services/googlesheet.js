@@ -20,14 +20,25 @@ angular.module('projectPlannerApp')
       // included, separated by spaces.
       var SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
 
-      gapi.load('client', function () {
+      gapi.load('client:auth2', function () {
+
         gapi.client.init({
           discoveryDocs: DISCOVERY_DOCS,
           clientId: CLIENT_ID,
           scope: SCOPES
         }).then(function (data) {
-          $rootScope.gapiInitiated = true;
+          gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+          updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
         });
+
+        function updateSigninStatus(isSignedIn) {
+          if (isSignedIn) {
+            $rootScope.gapiInitiated = true;
+            console.log('signed in');
+          } else {
+            gapi.auth2.getAuthInstance().signIn();
+          }
+        }
       });
     };
 
