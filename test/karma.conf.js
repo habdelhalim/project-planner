@@ -34,6 +34,7 @@ module.exports = function(config) {
       'bower_components/angular-gantt/assets/angular-gantt.js',
       'bower_components/angular-gantt/assets/angular-gantt-plugins.js',
       'bower_components/angular-ui-tree/dist/angular-ui-tree.js',
+      'bower_components/angular-loading-bar/build/loading-bar.js',
       'bower_components/angular-mocks/angular-mocks.js',
       // endbower
       'app/scripts/**/*.js',

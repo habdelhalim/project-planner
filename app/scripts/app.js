@@ -10,6 +10,7 @@
  */
 angular
   .module('projectPlannerApp', [
+    'angular-loading-bar',
     'ngAnimate',
     'ngCookies',
     'ngMessages',

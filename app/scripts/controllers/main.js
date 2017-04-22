@@ -31,18 +31,22 @@ angular.module('projectPlannerApp')
       }
     }
 
+    function filterTasksInInterval(entry) {
+      var show = false;
+
+      var tasks = entry.tasks;
+      tasks.forEach(function (task) {
+        show = (task.from >= vm.fromDate && task.from <= vm.toDate)
+          || (task.to >= vm.fromDate && task.to <= vm.toDate);
+      });
+
+      return show;
+    }
+
     function reload() {
-      vm.data = milestones.LoadList();
-      vm.data = vm.data.filter(function (elem) {
-        var show = false;
-
-        var tasks = elem.tasks;
-        tasks.forEach(function (task) {
-          show = (task.from >= vm.fromDate && task.from <= vm.toDate)
-            || (task.to >= vm.fromDate && task.to <= vm.toDate);
-        });
-
-        return show;
+      milestones.LoadList().then(function (list) {
+        vm.data = list && list.filter(filterTasksInInterval);
       });
     }
+
   });
