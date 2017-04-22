@@ -31,9 +31,9 @@ angular
         controller: 'MainCtrl',
         controllerAs: 'vm'
       })
-      .when('/planner', {
-        templateUrl: 'views/planner.html',
-        controller: 'PlannerCtrl',
+      .when('/settings', {
+        templateUrl: 'views/settings.html',
+        controller: 'MainCtrl',
         controllerAs: 'vm'
       })
       .otherwise({
