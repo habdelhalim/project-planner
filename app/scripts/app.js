@@ -41,3 +41,7 @@ angular
       });
   })
   .constant('BACKEND_SERVICE', 'GOOGLE_SHEET');
+
+var init = function () {
+  window.initGapi();
+};

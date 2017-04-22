@@ -33,7 +33,6 @@ angular.module('projectPlannerApp')
 
     function reload() {
       vm.data = milestones.LoadList();
-
       vm.data = vm.data.filter(function (elem) {
         var show = false;
 

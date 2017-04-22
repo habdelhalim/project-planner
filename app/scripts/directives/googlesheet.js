@@ -14,12 +14,12 @@ angular.module('projectPlannerApp')
       controller: function (googlesheet) {
         var vm = this;
         vm.sheetUrl = googlesheet.getUrl();
+        vm.clientId = googlesheet.getClientId();
         vm.saveUrl = saveUrl;
 
         function saveUrl() {
           console.log('saving document url', vm.sheetUrl);
-          googlesheet.url = vm.sheetUrl;
-          googlesheet.saveUrl();
+          googlesheet.saveSetting(vm.clientId, vm.sheetUrl);
         }
       },
       controllerAs: 'vm'

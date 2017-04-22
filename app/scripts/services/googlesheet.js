@@ -8,7 +8,28 @@
  * Service in the projectPlannerApp.
  */
 angular.module('projectPlannerApp')
-  .service('googlesheet', function ($window, $http) {
+  .service('googlesheet', function ($window, $http, $rootScope) {
+
+    $window.initGapi = function () {
+      var CLIENT_ID = $window.localStorage.getItem('googleClientId');
+
+      // Array of API discovery doc URLs for APIs used by the quickstart
+      var DISCOVERY_DOCS = ["https://sheets.googleapis.com/$discovery/rest?version=v4"];
+
+      // Authorization scopes required by the API; multiple scopes can be
+      // included, separated by spaces.
+      var SCOPES = "https://www.googleapis.com/auth/spreadsheets.readonly";
+
+      gapi.load('client', function () {
+        gapi.client.init({
+          discoveryDocs: DISCOVERY_DOCS,
+          clientId: CLIENT_ID,
+          scope: SCOPES
+        }).then(function (data) {
+          $rootScope.gapiInitiated = true;
+        });
+      });
+    };
 
     var service = {
       list: [],
@@ -16,37 +37,49 @@ angular.module('projectPlannerApp')
         console.log('not implemented yet');
       },
       loadList: function () {
-        if (service.getUrl()) {
+        if (service.getUrl() && $rootScope.gapiInitiated) {
           console.log('loading document ', service.getUrl());
-          $http
-            .get(service.getUrl())
-            .then(function (success) {
-              service.list = service.parseGoogleSheet(success.data.feed.entry);
-            }, function (error) {
-              console.log('error', error);
-            })
+          gapi.client.sheets.spreadsheets.get({
+            spreadsheetId: $window.localStorage.getItem('googleSheetId')
+          }).then(function (response) {
+            var sheets = response.result.sheets.map(function (item) {
+              return item.properties.title;
+            });
+
+            gapi.client.sheets.spreadsheets.values.batchGet({
+              spreadsheetId: $window.localStorage.getItem('googleSheetId'),
+              ranges: sheets
+            }).then(function (response) {
+              service.list = service.parseGoogleSheetV4(JSON.parse(response.body));
+            });
+          });
+
         }
 
         return service.list;
       },
-      parseGoogleSheet: function (entries) {
+      parseGoogleSheetV4: function (values) {
         var milestones = [];
-        entries.forEach(function (entry) {
-          var milestone = {
-            name: entry['gsx$name'] && entry['gsx$name']['$t'],
-            parent: entry['gsx$parent'] && entry['gsx$parent']['$t'],
-            tasks: []
-          };
+        values.valueRanges.forEach(function (valueRange) {
+          //remove first item as it contains headers
+          var values = valueRange.values.splice(1);
+          values.forEach(function (entry) {
+            var milestone = {
+              name: entry[0] && entry[0],
+              parent: entry[6] && entry[6],
+              tasks: []
+            };
 
-          milestone.tasks.push({
-            name: entry['gsx$name'] && entry['gsx$name']['$t'],
-            color: entry['gsx$color'] && entry['gsx$color']['$t'],
-            from: new Date(entry['gsx$from'] && entry['gsx$from']['$t']),
-            to: new Date(entry['gsx$to'] && entry['gsx$to']['$t']),
-            progress: entry['gsx$progress'] && entry['gsx$progress']['$t']
+            milestone.tasks.push({
+              name: entry[0] && entry[0],
+              color: entry[1] && entry[1],
+              from: new Date(entry[2] && entry[2]),
+              to: new Date(entry[3] && entry[3]),
+              progress: entry[5] && entry[5]
+            });
+
+            milestones.push(milestone);
           });
-
-          milestones.push(milestone);
         });
 
         return milestones;
@@ -54,20 +87,21 @@ angular.module('projectPlannerApp')
       addItem: function (item) {
         console.log('not implemented yet');
       },
-      saveUrl: function () {
-        if ($window.localStorage) {
-          $window.localStorage.setItem('googleSheetUrl', service.url);
-        }
-      },
-      loadUrl: function () {
-        if ($window.localStorage) {
-          service.url = $window.localStorage.getItem('googleSheetUrl');
-        }
-      },
       getUrl: function () {
-        service.loadUrl();
-
-        return service.url;
+        if ($window.localStorage) {
+          return $window.localStorage.getItem('googleSheetId');
+        }
+      },
+      getClientId: function () {
+        if ($window.localStorage) {
+          return $window.localStorage.getItem('googleClientId');
+        }
+      },
+      saveSetting: function (clientId, sheetId) {
+        if ($window.localStorage) {
+          $window.localStorage.setItem('googleClientId', clientId);
+          $window.localStorage.setItem('googleSheetId', sheetId);
+        }
       }
     };
 
